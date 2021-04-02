@@ -1,7 +1,7 @@
 {
   "SERVER_NAME": "RhythmCraft",
 
-  "PORT": 80,
+  "PORT": 8080,
   "SESSION_SECRET": "",
   "COMMENT_DELETE_REQUIRED_COUNT": 2,
 
