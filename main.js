@@ -181,6 +181,7 @@ app.use((req, res, next) => {
     res.locals.query = req.query;
     res.locals.referrer = req.get('referrer');
     res.locals.referrer_path = req.get('referrer') != null ? Url.parse(req.get('referrer')).path : req.url;
+    res.locals.req = req
 
     req.session.isLogin = req.isAuthenticated();
     req.session.rejoined_time = Date.now() - (req.session.last_join || 0);

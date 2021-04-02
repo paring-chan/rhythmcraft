@@ -1,5 +1,21 @@
 if !noNav
-    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    nav.navbar.navbar-light.bg-light.fixed-top.navbar-expand-lg
         .container-fluid
             a.navbar-brand(href='/')
                 img(src='/img/title.png', height=24)
+            button.navbar-toggler(type='button' data-bs-toggle='collapse' aria-expanded='false' aria-label='Toggle navigation' data-bs-target='#navCollapse' aria-contaols='navCollapse')
+            .collapse.navbar-collapse#navCollapse
+                ul.navbar-nav
+                    li.nav-item
+                        a.nav-link(href='/workshop') 창작마당
+                    if logined
+                        li.nav-item
+                            a.nav-link(href='/shop') 상점
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle.dropdown-toggle(href='#' data-bs-toggle='dropdown') 유저
+                            ul.dropdown-menu
+                                li
+                                    a.dropdown-item(href='/friend') 친구
+                                li
+                                    a.dropdown-item(href='/block') 차단
+    div(style='height: 60px')
