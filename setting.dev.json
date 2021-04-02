@@ -5,15 +5,12 @@
   "SESSION_SECRET": "",
   "COMMENT_DELETE_REQUIRED_COUNT": 2,
 
-  "USE_REDIS": false,
+  "USE_REDIS": true,
   "REDIS_HOST": "localhost",
-  "REDIS_PORT": 6379,
-  "REDIS_PASSWORD": "",
+  "REDIS_PORT": 6380,
 
   "MONGODB_HOST": "localhost",
   "MONGODB_PORT": 27017,
-  "MONGODB_USER": "USER",
-  "MONGODB_PASSWORD": "PASS",
   "DBNAME": "rhythmcraft",
 
   "SEARCH_TAGS": [ "TESTTAG" ],
@@ -22,12 +19,7 @@
 
   "SMTP_MAIL_ADDRESS": "example@example.com",
   "SMTP_INFO" : {
-    "host": "example.com",
-    "port": 465,
-    "secure": true,
-    "auth": {
-      "user": "example@example.com",
-      "pass": "SECRET"
-    }
+    "host": "localhost",
+    "port": 2525
   }
 }

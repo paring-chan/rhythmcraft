@@ -2,16 +2,7 @@
   "SERVER_NAME": "RhythmCraft",
 
   "PORT": 80,
-  "USE_SSL": false,
-  "SSL_CERT": "SSL_CERT",
-  "SSL_KEY": "SSL_KEY",
-  "SESSION_SECRET": "SECRET",
-
-  "INDEX": [ "index.htm" , "index.html" ],
-
-  "SAVE_FILE_PATH": "FILE_PATH",
-  "AVATAR_PATH": "AVATAR_PATH",
-
+  "SESSION_SECRET": "",
   "COMMENT_DELETE_REQUIRED_COUNT": 2,
 
   "USE_REDIS": false,
