@@ -1,3 +1,21 @@
 extends layout
 block title
     | 로그인 -
+block content
+    .container
+        .mx-auto.mt-3.col-sm-12.col-md-6.col-lg-4
+            h2 로그인
+            .card
+                .card-body
+                    form(action='/login' method='post')
+                        input(type='hidden' name='redirect' value=(query.redirect || '/'))
+                        .mb-3
+                            label(for='inputEmail').form-label 이메일
+                            input(type='email' name='email').form-control#inputEmail
+                        .mb-3
+                            label(for='inputPassword').form-label 비밀번호
+                            input(type='password' name='password').form-control#inputPassword
+                        .mb-3.d-flex.gap-2
+                            button.btn.btn-primary(type='submit').w-100 로그인
+                            a.btn.btn-primary(href='/find_my_password').w-100 비밀번호 찾기
+                        a.btn.btn-primary(href='/join').w-100 회원가입
