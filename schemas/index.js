@@ -5,8 +5,9 @@ const setting = require('../setting.json');
 
 module.exports = () => {
     const connect = () => {
-        mongoose.connect(`mongodb://${setting.MONGODB_USER}:${setting.MONGODB_PASSWORD}@${setting.MONGODB_HOST}:${setting.MONGODB_PORT}/admin`, {
-            dbName: setting.DBNAME
+        mongoose.connect(`mongodb://${setting.MONGODB_HOST}:${setting.MONGODB_PORT || 27017}`, {
+            dbName: setting.DBNAME,
+            user: setting.MONGODB_USER
         }, (error) => {
             if(error) {
                 console.log(`몽고디비 연결 중 오류가 발생하였습니다!\n오류 로그\n${error}`);

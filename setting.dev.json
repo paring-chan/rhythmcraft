@@ -10,7 +10,7 @@
   "REDIS_PORT": 6380,
 
   "MONGODB_HOST": "localhost",
-  "MONGODB_PORT": 27017,
+  "MONGODB_PORT": 27018,
   "DBNAME": "rhythmcraft",
 
   "SEARCH_TAGS": [ "TESTTAG" ],
