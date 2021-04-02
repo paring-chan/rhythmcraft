@@ -17,12 +17,13 @@ const path = require('path');
 const Url = require('url');
 const uniqueString = require('unique-string');
 
-const datadir = path.join(__dirname, 'data')
+const dataDir = path.join(__dirname, 'data')
 
-const notesDir = path.join(datadir, 'notes')
+const notesDir = path.join(dataDir, 'notes')
 
-const avatarsDir = path.join(datadir, 'avatars')
+const avatarsDir = path.join(dataDir, 'avatars')
 
+!fs.existsSync(dataDir) && fs.mkdirSync(dataDir)
 !fs.existsSync(notesDir) && fs.mkdirSync(notesDir)
 !fs.existsSync(avatarsDir) && fs.mkdirSync(avatarsDir)
 
