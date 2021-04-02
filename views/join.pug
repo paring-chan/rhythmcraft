@@ -20,10 +20,10 @@ block content
                             label(for='inputNickname').form-label 닉네임
                             input(type='password' name='text' required).form-control#inputNickname
                         .mb-3.form-check
-                            input.form-check-input#checkAllowEmailAd(type='checkbox')
+                            input.form-check-input#checkAllowEmailAd(type='checkbox' name='allow_email_ad')
                             label.form-check-label(for='checkAllowEmailAd') 홍보 이메일 수신 동의(업데이트 내역 등)
                         .mb-3.form-check
-                            input.form-check-input#acceptInformation(type='checkbox')
+                            input.form-check-input#acceptInformation(type='checkbox' required)
                             label.form-check-label(for='acceptInformation') 위의 정보를 수집하는데 동의합니다.
                         .mb-3
                             button.btn.btn-primary(type='submit').w-100 가입하기
