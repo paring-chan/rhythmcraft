@@ -4,12 +4,12 @@ services:
   mongodb:
     image: mongo:latest
     ports:
-    - 127.0.0.1:27017:27017
+    - 127.0.0.1:27018:27017
     volumes:
     - ./dev/mongo:/data/db
   redis:
     image: redis:latest
     ports:
-      - 127.0.0.1:6379:6379
+      - 127.0.0.1:6380:6379
     volumes:
       - ./dev/redis:/data
