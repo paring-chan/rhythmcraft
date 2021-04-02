@@ -3,4 +3,28 @@ block title
     | 회원가입 -
 block content
     .container
-        .alert.alert-primary(role='alert') 가입 후 메일함에서 이메일 인증을 마쳐야 계정이 생성됩니다
+        .mx-auto.mt-3.col-sm-12.col-md-6.col-lg-4
+            h2 회원가입
+            .alert.alert-primary(role='alert') 가입 후 메일함에서 이메일 인증을 마쳐야 계정이 생성됩니다
+            .card
+                .card-body
+                    form(action='/join' method='post')
+                        input(type='hidden' name='redirect' value=(query.redirect || '/'))
+                        .mb-3
+                            label(for='inputEmail').form-label 이메일
+                            input(type='email' name='email' required).form-control#inputEmail
+                        .mb-3
+                            label(for='inputPassword').form-label 비밀번호
+                            input(type='password' name='password' required).form-control#inputPassword
+                        .mb-3
+                            label(for='inputNickname').form-label 닉네임
+                            input(type='password' name='text' required).form-control#inputNickname
+                        .mb-3.form-check
+                            input.form-check-input#checkAllowEmailAd(type='checkbox')
+                            label.form-check-label(for='checkAllowEmailAd') 홍보 이메일 수신 동의(업데이트 내역 등)
+                        .mb-3.form-check
+                            input.form-check-input#acceptInformation(type='checkbox')
+                            label.form-check-label(for='acceptInformation') 위의 정보를 수집하는데 동의합니다.
+                        .mb-3
+                            button.btn.btn-primary(type='submit').w-100 가입하기
+                        a.btn.btn-primary(href='/login').w-100 로그인
