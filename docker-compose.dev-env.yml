@@ -13,3 +13,21 @@ services:
       - 127.0.0.1:6380:6379
     volumes:
       - ./dev/redis:/data
+  fake-smtp:
+    image: munkyboy/fakesmtp
+    container_name: fake-smtp
+    ports:
+      - "2525:25"
+    volumes:
+      - ./dev/fake-smtp:/var/mail
+  fake-smtp-web:
+    image: mjstewart/fakesmtp-web:1.3
+    container_name: fake-smtp-web
+    ports:
+      - "60500:8080"
+    volumes:
+      - ./dev/fake-smtp:/var/mail
+    environment:
+      - EMAIL_INPUT_DIR_POLL_RATE_SECONDS=10
+    depends_on:
+      - fake-smtp
