@@ -1,3 +1,7 @@
+// 정현수바부
+process.on('unhandledRejection', console.error)
+process.on('uncaughtException', console.error)
+
 // 기본 모듈
 const express = require('express');
 const http = require('http');
