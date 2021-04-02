@@ -1,5 +1,6 @@
 {
   "SERVER_NAME": "RhythmCraft",
+  "SITE_BASEURL": "",
 
   "PORT": 8080,
   "SESSION_SECRET": "",
