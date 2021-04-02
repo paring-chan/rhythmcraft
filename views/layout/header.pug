@@ -12,11 +12,21 @@ if !noNav
                     if logined
                         li.nav-item
                             a.nav-link(href='/shop') 상점
-                        li.nav-item
-                            a.nav-link(href='/debug') 디버그 정보
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle.dropdown-toggle(href='#' data-bs-toggle='dropdown') 유저
+                            ul.dropdown-menu
+                                li
+                                    a.dropdown-item(href='/friend') 친구
+                                li
+                                    a.dropdown-item(href='/block') 차단
                     if isAdmin
-                        li.nav-item
-                            a.nav-link(href='/admin') 관리자 메뉴
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle.dropdown-toggle(href='#' data-bs-toggle='dropdown') 관리자
+                            ul.dropdown-menu
+                                li
+                                    a.dropdown-item(href='/debug') 디버그 정보
+                                li
+                                    a.dropdown-item(href='/admin') 관리자 메뉴
                 .flex-grow-1
                 ul.navbar-nav
                     if logined
@@ -38,12 +48,5 @@ if !noNav
                     else
                         li.nav-item
                             a.nav-link(href=`/login?redirect=${encodeURIComponent(referrer_path)}`) 로그인
-                //li.nav-item.dropdown
-                //    a.nav-link.dropdown-toggle.dropdown-toggle(href='#' data-bs-toggle='dropdown') 유저
-                //    ul.dropdown-menu
-                //        li
-                //            a.dropdown-item(href='/friend') 친구
-                //        li
-                //            a.dropdown-item(href='/block') 차단
 
     div(style='height: 60px')

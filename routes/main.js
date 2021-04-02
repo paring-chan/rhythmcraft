@@ -12,7 +12,7 @@ app.get('/', (req, res, next) => {
     return res.render('main');
 });
 
-app.get('/debug', utils.isLogin, (req, res, next) => {
+app.get('/debug', utils.isLogin, utils.isAdmin, (req, res, next) => {
     return res.render('debug', {
         req
     });
