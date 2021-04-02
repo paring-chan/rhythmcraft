@@ -20,7 +20,7 @@ const app = express.Router();
 
 // bodyParser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended : false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // 세션
 app.use(session({
@@ -44,12 +44,11 @@ login_dir_list.splice(login_dir_list.indexOf('local.js'), 1);
 login_dir_list.forEach((file) => {
     const provider = file.replace('.js', '');
 
-    app.get(`/login/${provider}`,(req, res, next) => {
-        if(req.isAuthenticated()) {
+    app.get(`/login/${provider}`, (req, res, next) => {
+        if (req.isAuthenticated()) {
             res.redirect('/');
             return;
-        }
-        else {
+        } else {
             req.session.LoginRedirect = req.query.redirect || '/';
             next();
         }
@@ -89,20 +88,20 @@ app.get('/loginfail', (req, res, next) => {
 
 // 로컬 로그인 코드
 app.post('/login', utils.isNotLogin, (req, res, next) => {
-    passport.authenticate( 'local', (authError, user, info) => {
-        if(authError) {
+    passport.authenticate('local', (authError, user, info) => {
+        if (authError) {
             console.error(authError);
-            if(!res.headersSent) return res.redirect('/loginfail');
+            if (!res.headersSent) return res.redirect('/loginfail');
         }
-        if(!user) {
+        if (!user) {
             req.flash('Error', info.message);
-            if(!res.headersSent) return res.redirect('/login');
+            if (!res.headersSent) return res.redirect('/login');
         }
         return req.login(user, (loginError) => {
-            if(loginError) {
+            if (loginError) {
                 console.error(loginError);
             }
-            if(!res.headersSent) return res.redirect(req.body.redirect || '/');
+            if (!res.headersSent) return res.redirect(req.body.redirect || '/');
         });
     })(req, res, next);
 });
@@ -114,17 +113,17 @@ app.get('/join', utils.isNotLogin, (req, res, next) => {
 });
 
 app.post('/join', utils.isNotLogin, async (req, res, next) => {
-    const exUser = await User.findOne({ email : req.body.email , provider : 'local' });
-    if(exUser != null) {
+    const exUser = await User.findOne({email: req.body.email, provider: 'local'});
+    if (exUser != null) {
         req.flash('Error', '이미 가입된 이메일입니다.');
         return res.redirect('/join');
     }
-    const checkNick = await User.findOne({ nickname : req.body.nickname });
-    if(checkNick != null) {
+    const checkNick = await User.findOne({nickname: req.body.nickname});
+    if (checkNick != null) {
         req.flash('Error', '이미 해당 닉네임이 사용 중입니다.');
         return res.redirect('/join');
     }
-    if(req.body.nickname == '' || req.body.email == '' || req.body.password == '') {
+    if (req.body.nickname == '' || req.body.email == '' || req.body.password == '') {
         req.flash('Error', '필수 입력란을 입력하지 않았습니다.');
         return res.redirect('/join');
     }
@@ -137,7 +136,7 @@ app.post('/join', utils.isNotLogin, async (req, res, next) => {
         allow_email_ad: req.body.allow_email_ad == 'true',
         provider: 'local',
         snsID: userID,
-        fullID : userID,
+        fullID: userID,
         nick_set: true,
         join_finish: false
     });
@@ -159,8 +158,8 @@ app.post('/join', utils.isNotLogin, async (req, res, next) => {
 <h1>최근 이 이메일로 ${setting.SERVER_NAME} 가입이 시도되었습니다.</h1>
 <h1>가입을 완료하려면 아래 [가입 완료] 링크를, 가입하지 않으려면 [가입 취소] 링크를 클릭해주세요.</h1>
 
-<a href="${req.protocol}://${req.hostname}/verifymail?token=${token}&join=true">[가입 완료]</a>
-<a href="${req.protocol}://${req.hostname}/verifymail?token=${token}&join=false">[가입 취소]</a>
+<a href="${setting.SITE_BASEURL}/verifymail?token=${token}&join=true">[가입 완료]</a>
+<a href="${setting.SITE_BASEURL}/verifymail?token=${token}&join=false">[가입 취소]</a>
 `
     }
     transport.sendMail(message);
@@ -170,19 +169,18 @@ app.post('/join', utils.isNotLogin, async (req, res, next) => {
 
 app.get('/verifymail', async (req, res, next) => {
     const token_result = utils.verifyToken(req.query.token);
-    if(token_result.error) return res.send(token_result.message);
+    if (token_result.error) return res.send(token_result.message);
 
-    if(req.query.join == 'true') {
-        await User.updateOne({ fullID : token_result.account_fullID }, { join_finish : true });
+    if (req.query.join == 'true') {
+        await User.updateOne({fullID: token_result.account_fullID}, {join_finish: true});
         res.send(`<h1>요청이 정상적으로 처리되었습니다!</h1><h2><a href="/">메인으로 돌아가기</a></h2>`);
         return;
-    }
-    else {
-        const user = await User.findOne({ fullID : token_result.account_fullID });
-        if(user.join_finish) {
+    } else {
+        const user = await User.findOne({fullID: token_result.account_fullID});
+        if (user.join_finish) {
             return res.send('이미 가입된 계정은 취소할 수 없습니다.');
         }
-        await User.deleteOne({ fullID : token_result.account_fullID });
+        await User.deleteOne({fullID: token_result.account_fullID});
         return res.send(`<h1>작업 취소가 완료되었습니다. 이 링크 없이는 다른 사람이 이 이메일 관련 설정을 할 수 없습니다.</h1><h2><a href="/">메인으로 돌아가기</a></h2>`);
     }
 });
@@ -192,8 +190,8 @@ app.get('/change_email', utils.isLogin, (req, res, next) => {
 });
 
 app.post('/change_email', utils.isLogin, async (req, res, next) => {
-    const exUser = await User.findOne({ email : req.body.email });
-    if(exUser != null) {
+    const exUser = await User.findOne({email: req.body.email});
+    if (exUser != null) {
         req.flash('Error', '이미 해당 이메일이 사용중입니다.');
         return res.redirect('/');
     }
@@ -215,7 +213,7 @@ app.post('/change_email', utils.isLogin, async (req, res, next) => {
 <h1>최근 ${req.user.nickname}(${req.user.fullID}) 계정이 자신의 이메일을 이 이메일로 변경하려고 시도했습니다.</h1>
 <h1>변경을 완료하려면 아래 [변경 완료] 링크를 눌러주세요.</h1>
 
-<a href="${req.protocol}://${req.hostname}/change_email_accept?token=${token}">[변경 완료]</a>
+<a href="${setting.SITE_BASEURL}/change_email_accept?token=${token}">[변경 완료]</a>
 `
     }
     transport.sendMail(message);
@@ -225,9 +223,9 @@ app.post('/change_email', utils.isLogin, async (req, res, next) => {
 
 app.get('/change_email_accept', async (req, res, next) => {
     const token_result = utils.verifyToken(req.query.token);
-    if(token_result.error) return res.send(token_result.message);
+    if (token_result.error) return res.send(token_result.message);
 
-    await User.updateOne({ fullID : token_result.account_fullID }, { email : token_result.email });
+    await User.updateOne({fullID: token_result.account_fullID}, {email: token_result.email});
     res.send(`<h1>요청이 정상적으로 처리되었습니다!</h1><h2><a href="/">메인으로 돌아가기</a></h2>`);
     return;
 });
@@ -237,8 +235,8 @@ app.get('/find_my_password', (req, res, next) => {
 });
 
 app.post('/find_my_password', async (req, res, next) => {
-    const user = await User.findOne({ email : req.body.email , provider : 'local' });
-    if(user == null) {
+    const user = await User.findOne({email: req.body.email, provider: 'local'});
+    if (user == null) {
         req.flash('Error', '존재하지 않는 계정입니다.');
         return res.redirect('/find_my_password');
     }
@@ -270,12 +268,11 @@ app.post('/find_my_password', async (req, res, next) => {
 
 app.get('/change_password', (req, res, next) => {
     let token_result;
-    if(req.query.from_mypage == 'true') {
-        if(!req.isAuthenticated()) {
+    if (req.query.from_mypage == 'true') {
+        if (!req.isAuthenticated()) {
             return res.redirect('/login');
         }
-    }
-    else {
+    } else {
         token_result = utils.verifyToken(req.query.token);
         if (token_result.error) return res.send(token_result.message);
     }
@@ -287,19 +284,18 @@ app.get('/change_password', (req, res, next) => {
 
 app.post('/change_password', async (req, res, next) => {
     let token_result;
-    if(req.body.from_mypage == 'true') {
-        if(!req.isAuthenticated()) {
+    if (req.body.from_mypage == 'true') {
+        if (!req.isAuthenticated()) {
             return res.redirect('/login');
         }
-    }
-    else {
+    } else {
         token_result = utils.verifyToken(req.body.token);
         if (token_result.error) return res.send(token_result.message);
     }
 
     const hash = await bcrypt.hash(req.body.password, 12);
 
-    await User.updateOne({ fullID : req.body.from_mypage == 'true' ? req.user.fullID : token_result.account_fullID }, { password : hash });
+    await User.updateOne({fullID: req.body.from_mypage == 'true' ? req.user.fullID : token_result.account_fullID}, {password: hash});
     return res.send(`<h1>비밀번호가 변경되었습니다.</h1><h2><a href="/">메인으로 돌아가기</a></h2>`);
 });
 
