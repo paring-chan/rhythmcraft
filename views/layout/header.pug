@@ -21,8 +21,8 @@ if !noNav
                 ul.navbar-nav
                     if logined
                         li.nav-item.dropdown
-                            a.nav-link.dropdown-toggle.dropdown-toggle(href='#' data-bs-toggle='dropdown')
-                            ul.dropdown-menu
+                            a.nav-link.dropdown-toggle.dropdown-toggle(href='#' data-bs-toggle='dropdown') #{user.nickname}
+                            ul.dropdown-menu.dropdown-menu-end
                                 li
                                     a.dropdown-item(href='/profile') 프로필
                                 li
