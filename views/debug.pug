@@ -1,0 +1,39 @@
+extends layout
+
+block title
+    | 디버그 -
+block content
+    .container
+        h1 디버그 정보
+        table.table.table-hover
+            tbody
+                tr
+                    th 나의 닉네임
+                    td #{user.nickname}
+                tr
+                    th 이메일
+                    td #{user.email}
+                tr
+                    th 식별 ID
+                    td #{user.snsID}
+                tr
+                    th fullID
+                    td #{user.fullID}
+                tr
+                    th provider
+                    td #{user.provider}
+                tr
+                    th nick_set
+                    td #{user.nick_set}
+                tr
+                    th 홍보 이메일 수신 동의
+                    td #{user.allow_email_ad}
+                tr
+                    th 계정 생성일
+                    td #{user.createdAt}
+                tr
+                    th 가입 완료
+                    td #{user.join_finish}
+                tr
+                    th 전용 클라이언트 사용 여부
+                    td #{session.isClient || false}
