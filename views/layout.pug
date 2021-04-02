@@ -1,7 +1,9 @@
 doctype html
 html
     head
+        title #{title ? `${title} - ` : ''} #{servername}
         link(rel='stylesheet' href='/css/bootstrap/bootstrap.min.css')
     body
+        include layout/header
         block content
         script(src='/js/bootstrap/bootstrap.min.js')

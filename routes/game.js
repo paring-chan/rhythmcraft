@@ -44,7 +44,8 @@ app.get('/game', utils.isLogin, async (req, res, next) => {
         room_have_password: room.password != null && room.password != '',
         files,
         notes,
-        friends
+        friends,
+        noNav: true
     });
 });
 
