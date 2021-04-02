@@ -135,7 +135,7 @@ app.use('/avatar', express.static(avatarsDir, staticoptions));
 
 // view engine을 EJS로 설정
 app.set('views', './views');
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // 로그인 파일 불러오기
 fs.readdirSync('./login').forEach((file) => {
