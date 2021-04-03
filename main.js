@@ -10,17 +10,19 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 const redis = require('redis')
+/**
+ * @type {any}
+ */
 const RedisStore = require('connect-redis')(session)
 const fs = require('fs')
 const path = require('path')
-const Url = require('url')
-const uniqueString = require('unique-string')
+// const uniqueString = require('unique-string')
 
-const dataDir = path.join(__dirname, 'data')
+global.dataDir = path.join(__dirname, 'data')
 
-const notesDir = path.join(dataDir, 'notes')
+global.notesDir = path.join(dataDir, 'notes')
 
-const avatarsDir = path.join(dataDir, 'avatars')
+global.avatarsDir = path.join(dataDir, 'avatars')
 
 !fs.existsSync(dataDir) && fs.mkdirSync(dataDir)
 !fs.existsSync(notesDir) && fs.mkdirSync(notesDir)
@@ -30,8 +32,7 @@ const avatarsDir = path.join(dataDir, 'avatars')
 const User = require('./schemas/user')
 const Room = require('./schemas/room')
 const RoomUser = require('./schemas/room_user')
-const File = require('./schemas/file')
-const Comment = require('./schemas/comment')
+// const File = require('./schemas/file')
 const Chat = require('./schemas/chat')
 const Item = require('./schemas/item')
 const Inventory = require('./schemas/inventory')
@@ -42,7 +43,7 @@ const webSocket = require('./socket')
 
 // 설정 파일, 유틸
 const setting = require('./setting.json')
-const utils = require('./utils')
+// const utils = require('./utils')
 
 // app 정의
 const app = express()
@@ -50,15 +51,6 @@ const app = express()
 // 몽고디비 스키마 연결
 const connect = require('./schemas')
 connect()
-
-// SSL 관련 설정
-let options
-if (setting.USE_SSL) {
-  options = {
-    cert: fs.readFileSync(setting.SSL_CERT),
-    key: fs.readFileSync(setting.SSL_KEY),
-  }
-}
 
 // 로그인 관련 코드
 passport.serializeUser((user, done) => {
@@ -68,7 +60,7 @@ passport.deserializeUser((obj, done) => {
   User.findOne({ snsID: obj.snsID, provider: obj.provider })
     .then(async (u) => {
       const user = JSON.parse(JSON.stringify(u))
-      for (let key in user.equip) {
+      for (let key of Object.keys(user.equip)) {
         const item = await Item.findOne({ product_id: user.equip[key] })
         const check_have = await Inventory.findOne({
           owner: user.fullID,
@@ -90,9 +82,9 @@ passport.deserializeUser((obj, done) => {
 let sessionMiddleware
 if (setting.USE_REDIS) {
   const client = redis.createClient({
-    host: setting.REDIS_HOST,
-    port: setting.REDIS_PORT,
-    password: setting.REDIS_PASSWORD,
+    host: setting['REDIS_HOST'],
+    port: setting['REDIS_PORT'],
+    password: setting['REDIS_PASSWORD'],
     logError: true,
   })
   sessionMiddleware = session({
@@ -151,7 +143,7 @@ fs.readdirSync('./login').forEach((file) => {
 app.use((req, res, next) => {
   const render = res.render
   res.render = function (view, options, callback) {
-    fs.stat(path.join(__dirname, 'views', view + '.pug'), (err, stat) => {
+    fs.stat(path.join(__dirname, 'views', view + '.pug'), (err) => {
       if (err) {
         return render.bind(this)(view + '.ejs', options, callback)
       }
@@ -174,7 +166,7 @@ app.use((req, res, next) => {
 
 // 벤 감지
 app.use((req, res, next) => {
-  if (req.isAuthenticated() && req.user.block_login >= Date.now()) {
+  if (req.isAuthenticated() && req.user && req.user.block_login >= Date.now()) {
     req.flash(
       'Error',
       `관리자에 의해 계정이 정지되어 ${new Date(
@@ -196,13 +188,12 @@ app.use((req, res, next) => {
   if (
     req.isAuthenticated() &&
     !req.user.nick_set &&
-    req.url != '/mypage' &&
-    req.url != '/editaccount'
+    req.url !== '/mypage' &&
+    req.url !== '/editaccount'
   )
     return res.redirect('/mypage')
   next()
 })
-
 // 미리 템플릿 엔진 변수 넣기, 세션 셋팅
 app.use((req, res, next) => {
   res.locals.user = req.user
@@ -213,16 +204,18 @@ app.use((req, res, next) => {
   res.locals.Info = req.flash('Info')
   res.locals.Warn = req.flash('Warn')
   res.locals.session = req.session
-  res.locals.isClient = req.session.isClient || false
+  res.locals.isClient = req.session['isClient'] || false
   res.locals.socket = setting.SITE_BASEURL
   res.locals.query = req.query
   res.locals.referrer = req.get('referrer')
   res.locals.referrer_path =
-    req.get('referrer') != null ? Url.parse(req.get('referrer')).path : req.url
+    req.get('referrer') != null
+      ? new URL(req.get('referrer')).pathname
+      : req.url
   res.locals.req = req
 
   req.session.isLogin = req.isAuthenticated()
-  req.session.rejoined_time = Date.now() - (req.session.last_join || 0)
+  req.session.rejoined_time = Date.now() - (req.session['last_join'] || 0)
   req.session.last_join = Date.now()
   next()
 })
@@ -235,10 +228,10 @@ app.use((req, res, next) => {
 
 // 클라이언트 인식
 app.use((req, res, next) => {
-  if (req.query.isClient == 'true') req.session.isClient = true
-  if (req.query.isClient == 'false') req.session.isClient = false
+  if (req.query.isClient === 'true') req.session.isClient = true
+  if (req.query.isClient === 'false') req.session.isClient = false
   if (
-    req.session.isClient &&
+    req.session['isClient'] &&
     !req.isAuthenticated() &&
     !req.url.startsWith('/login') &&
     !req.url.startsWith('/getqrcode')
@@ -269,41 +262,41 @@ setImmediate(async () => {
   // CreateOfficialRoom();
 })
 
-async function CreateOfficialRoom() {
-  const count = await File.countDocuments({ public: true, file_type: 'note' })
-  const note = await File.findOne({ public: true, file_type: 'note' }).skip(
-    utils.getRandomInt(0, count - 1),
-  )
-
-  let token_result
-  let note_file = String(
-    fs.readFileSync(path.join(setting.SAVE_FILE_PATH, note.name)),
-  )
-  if (path.extname(note.name) == '.signedrhythmcraft') {
-    token_result = utils.verifyToken(note_file)
-    if (token_result.error) return CreateOfficialRoom()
-  } else note_file = JSON.parse(note_file)
-
-  const music = await File.findOne({
-    name: token_result != null ? token_result.music : note_file.music,
-    public: true,
-    file_type: 'music',
-  })
-  if (!music) return CreateOfficialRoom()
-
-  await Room.create({
-    name: '자동 진행 공식 방',
-    master: 'no_master',
-    note_speed: 1000,
-    max_player: 100,
-    roomcode: `official_${uniqueString()}`,
-    music: music.name,
-    music_name: music.originalname,
-    note: token_result || note_file,
-    trusted: token_result != null,
-    auto_manage_room: true,
-  })
-}
+// async function CreateOfficialRoom() {
+//   const count = await File.countDocuments({ public: true, file_type: 'note' })
+//   const note = await File.findOne({ public: true, file_type: 'note' }).skip(
+//     utils.getRandomInt(0, count - 1),
+//   )
+//
+//   let token_result
+//   let note_file = String(
+//     notesDir,
+//   )
+//   if (path.extname(note.name) === '.signedrhythmcraft') {
+//     token_result = utils.verifyToken(note_file)
+//     if (token_result.error) return CreateOfficialRoom()
+//   } else note_file = JSON.parse(note_file)
+//
+//   const music = await File.findOne({
+//     name: token_result != null ? token_result.music : note_file.music,
+//     public: true,
+//     file_type: 'music',
+//   })
+//   if (!music) return CreateOfficialRoom()
+//
+//   await Room.create({
+//     name: '자동 진행 공식 방',
+//     master: 'no_master',
+//     note_speed: 1000,
+//     max_player: 100,
+//     roomcode: `official_${uniqueString()}`,
+//     music: music.name,
+//     music_name: music.originalname,
+//     note: token_result || note_file,
+//     trusted: token_result != null,
+//     auto_manage_room: true,
+//   })
+// }
 
 setInterval(async () => {
   await Chat.deleteMany({

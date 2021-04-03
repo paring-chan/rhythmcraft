@@ -8,4 +8,7 @@ html
     body
         include layout/header
         block content
+        script.
+            isClient = #{session.isClient}
+            socket_address = "#{socket}"
         script(src='/js/bootstrap/bootstrap.min.js')

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node main.js"
   },
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wjdgustn/rhythmcraft.git"
@@ -49,6 +50,9 @@
     ]
   },
   "devDependencies": {
+    "@types/connect-flash": "^0.0.36",
+    "@types/express-session": "^1.17.3",
+    "@types/passport": "^1.0.6",
     "prettier": "^2.2.1"
   }
 }
