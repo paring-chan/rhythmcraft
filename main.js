@@ -25,12 +25,9 @@ global.notesDir = path.join(dataDir, 'notes')
 
 global.avatarsDir = path.join(dataDir, 'avatars')
 
-global.clientDir = path.join(dataDir, 'client')
-
 !fs.existsSync(dataDir) && fs.mkdirSync(dataDir)
 !fs.existsSync(notesDir) && fs.mkdirSync(notesDir)
 !fs.existsSync(avatarsDir) && fs.mkdirSync(avatarsDir)
-!fs.existsSync(clientDir) && fs.mkdirSync(clientDir)
 
 // 데이터베이스 스키마
 const User = require('./schemas/user')
@@ -127,7 +124,22 @@ app.use(passport.session())
 const staticOptions = {
   index: ['index.htm', 'index.html'],
 }
+const clientDir = path.join(__dirname, 'client/dist')
 app.use(express.static(__dirname + '/public/', staticOptions))
+app.get('/client', async (req, res) => {
+  const promiseFS = require('fs/promises')
+  const items = (await promiseFS.readdir(clientDir)).filter((value) =>
+    ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
+  )
+  const BASEURL = setting.SITE_BASEURL + '/client/'
+  const win = BASEURL + items.find((r) => r.endsWith('.exe'))
+  const linux = BASEURL + items.find((r) => r.endsWith('.AppImage'))
+  res.json({
+    win,
+    linux,
+  })
+})
+app.use('/client', express.static(clientDir))
 app.use('/avatar', express.static(avatarsDir, staticOptions))
 
 // view engine을 EJS로 설정
@@ -311,38 +323,6 @@ setInterval(async () => {
   await Promotion.deleteMany({ expires: { $lt: Date.now() } })
 }, 60000)
 
-const builder = require('electron-builder')
-const { Platform } = require('app-builder-lib')
-
-;(async () => {
-  try {
-    const res = await builder.build({
-      projectDir: 'client',
-      config: {
-        win: {
-          target: ['nsis', 'zip'],
-          icon: 'icon.ico',
-        },
-        mac: {
-          target: 'mas',
-        },
-        linux: {
-          target: ['deb', 'appImage', 'snap'],
-          maintainer: 'parnagee9706@gmail.com',
-          category: 'Game',
-        },
-        icon: 'icon.png',
-        buildVersion: '1.0.0',
-      },
-      win: ['nsis', 'zip'],
-      linux: ['deb', 'appImage', 'snap'],
-      mac: ['default'],
-    })
-    console.log(res)
-  } catch (e) {
-    console.log('Failed to build client.', e.message)
-  }
-  server.listen(setting.PORT, () => {
-    console.log('서버가 구동중입니다!')
-  })
-})()
+server.listen(setting.PORT, () => {
+  console.log('서버가 구동중입니다!')
+})
