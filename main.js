@@ -250,7 +250,8 @@ app.use((req, res, next) => {
     req.session['isClient'] &&
     !req.isAuthenticated() &&
     !req.url.startsWith('/login') &&
-    !req.url.startsWith('/getqrcode')
+    !req.url.startsWith('/getqrcode') &&
+    !req.url.startsWith('/join')
   )
     return res.redirect('/login')
   next()
