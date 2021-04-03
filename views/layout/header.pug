@@ -7,6 +7,9 @@ if !noNav
                 span.navbar-toggler-icon
             .collapse.navbar-collapse#navCollapse
                 ul.navbar-nav.me-auto
+                    if !isClient
+                        li.nav-item
+                            a.nav-link(href='/download') 클라이언트 다운로드
                     li.nav-item
                         a.nav-link(href='/workshop') 창작마당
                     if logined
