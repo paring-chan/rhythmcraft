@@ -1,5 +1,5 @@
 window.onload = function () {
-  document.getElementById('InputEmail').focus()
+  document.getElementById('inputEmail').focus()
 
   const socket = io.connect(`${socket_address}/qrlogin`, {
     path: '/socket',
@@ -17,7 +17,7 @@ window.onload = function () {
       case 'saveid':
         socketid = data.id
         document.getElementById('qrlogin').src = encodeURI(
-          `${location.protocol}//${location.hostname}:${data.port}/getqrcode?socketID=${socketid}`,
+          `/getqrcode?socketID=${socketid}`,
         )
         break
       case 'alert':
