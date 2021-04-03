@@ -1,19 +1,19 @@
-<%if(Error != '' && Error != null) {%><div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <%-Error%>
+<%if(FlashError !== '' && Error != null) {%><div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%-FlashError%>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <%}%>
-<%if(Info != '' && Info != null) {%><div class="alert alert-primary alert-dismissible fade show" role="alert">
-    <%-Info%>
+<%if(FlashInfo !== '' && FlashInfo != null) {%><div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <%-FlashInfo%>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <%}%>
-<%if(Warn != '' && Warn != null) {%><div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <%-Warn%>
+<%if(FlashWarn !== '' && FlashWarn != null) {%><div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <%-FlashWarn%>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
