@@ -251,7 +251,8 @@ app.use((req, res, next) => {
     !req.isAuthenticated() &&
     !req.url.startsWith('/login') &&
     !req.url.startsWith('/getqrcode') &&
-    !req.url.startsWith('/join')
+    !req.url.startsWith('/join') &&
+    !req.url.startsWith('/find_my_password')
   )
     return res.redirect('/login')
   next()
