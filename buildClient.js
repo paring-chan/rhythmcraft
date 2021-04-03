@@ -3,7 +3,7 @@ const fs = require('fs')
 fs.writeFileSync(
   'client/data.json',
   JSON.stringify({
-    baseUrl: require('./setting.json').SITE_BASEURL,
+    baseUrl: require('./setting.json').SITE_BASEURL + '?isClient=true',
   }),
 )
 ;(async () => {
