@@ -47,5 +47,8 @@
       "public/*",
       "views/*"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
