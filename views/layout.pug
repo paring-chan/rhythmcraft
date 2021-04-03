@@ -7,6 +7,9 @@ html
         link(rel='stylesheet' href='/css/bootstrap/bootstrap.min.css')
     body
         include layout/header
+        if !disableFlash
+            .container
+                include layout/info
         block content
         script.
             isClient = #{session.isClient}

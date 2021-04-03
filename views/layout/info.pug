@@ -1,0 +1,11 @@
+mixin dismissableAlert(variant, content)
+    div(role='alert' class='alert alert-' + variant + ' alert-dismissible fade show')
+        | #{content}
+        button(type='button' data-bs-dismiss='alert' aria-label='Close').btn-close
+
+for i in FlashError
+    +dismissableAlert('danger', i)
+for i in FlashWarn
+    +dismissableAlert('warning', i)
+for i in FlashInfo
+    +dismissableAlert('primary', i)
