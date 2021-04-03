@@ -132,8 +132,8 @@ app.get('/client', async (req, res) => {
     ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
   )
   const BASEURL = setting.SITE_BASEURL + '/client/'
-  const win = BASEURL + items.find((r) => r.endsWith('.exe'))
-  const linux = BASEURL + items.find((r) => r.endsWith('.AppImage'))
+  const win = encodeURI(BASEURL + items.find((r) => r.endsWith('.exe')))
+  const linux = encodeURI(BASEURL + items.find((r) => r.endsWith('.AppImage')))
   res.json({
     win,
     linux,
