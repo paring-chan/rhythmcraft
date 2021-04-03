@@ -25,9 +25,12 @@ global.notesDir = path.join(dataDir, 'notes')
 
 global.avatarsDir = path.join(dataDir, 'avatars')
 
+global.clientDir = path.join(dataDir, 'client')
+
 !fs.existsSync(dataDir) && fs.mkdirSync(dataDir)
 !fs.existsSync(notesDir) && fs.mkdirSync(notesDir)
 !fs.existsSync(avatarsDir) && fs.mkdirSync(avatarsDir)
+!fs.existsSync(clientDir) && fs.mkdirSync(clientDir)
 
 // 데이터베이스 스키마
 const User = require('./schemas/user')
