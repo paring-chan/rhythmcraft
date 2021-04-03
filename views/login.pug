@@ -9,7 +9,7 @@ block content
     .container
         .mx-auto.mt-3.col-sm-12.col-md-8
             h2 로그인
-            .d-flex.flex-column.flex-xl-row.gap-2
+            .d-flex.flex-column.flex-lg-row.gap-2
                 .card.flex-grow-1
                     .card-body
                         form(action='/login' method='post')
@@ -25,7 +25,7 @@ block content
                                 a.btn.btn-primary(href='/find_my_password').w-100 비밀번호 찾기
                             .mb-2
                                 a.btn.btn-primary(href='/join').w-100 회원가입
-                div
+                div.d-none.d-lg-block
+                    a.btn.btn-primary.w-100.mb-2(href='https://play.google.com/store/apps/details?id=com.hyonsu.hyonsulogin' target='_blank') QR로그인 앱 다운로드하기
                     .card
-                        .card-body
-                            img#qrlogin(src='/img/loading.gif' width='100%')
+                        img#qrlogin(src='/img/loading.gif' width='100%' style='min-width: 245px')
