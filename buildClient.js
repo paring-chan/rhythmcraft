@@ -1,15 +1,13 @@
 const builder = require('electron-builder')
-
+const fs = require('fs')
+fs.writeFileSync('', require(''))
 ;(async () => {
   await builder.build({
     projectDir: 'client',
     config: {
       win: {
-        target: ['nsis', 'zip'],
+        target: ['nsis'],
         icon: 'icon.ico',
-      },
-      mac: {
-        target: 'mas',
       },
       linux: {
         target: ['appImage'],
