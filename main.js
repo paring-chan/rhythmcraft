@@ -256,9 +256,7 @@ routerPaths.forEach((file) => {
 })
 routersBar.stop()
 // 서버 구동
-let server = http.createServer(app).listen(setting.PORT, () => {
-  console.log('서버가 구동중입니다!')
-})
+let server = http.createServer(app)
 
 webSocket(server, app, sessionMiddleware)
 
@@ -312,3 +310,9 @@ setInterval(async () => {
   })
   await Promotion.deleteMany({ expires: { $lt: Date.now() } })
 }, 60000)
+
+const builder = require('electron-builder')
+
+server.listen(setting.PORT, () => {
+  console.log('서버가 구동중입니다!')
+})

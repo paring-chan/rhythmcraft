@@ -2,6 +2,7 @@
   "name": "rhythmcraft",
   "version": "0.0.1",
   "description": "Online RhythmCraft game.",
+  "private": true,
   "main": "main.js",
   "scripts": {
     "test": "node main.js"
@@ -56,5 +57,8 @@
     "@types/express-session": "^1.17.3",
     "@types/passport": "^1.0.6",
     "prettier": "^2.2.1"
-  }
+  },
+  "workspaces": [
+    "client"
+  ]
 }
