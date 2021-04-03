@@ -1,6 +1,6 @@
 const builder = require('electron-builder')
 const fs = require('fs')
-fs.writeFileSync('', require(''))
+fs.writeFileSync('_SITE_URL', require('./setting.json').SITE_BASEURL)
 ;(async () => {
   await builder.build({
     projectDir: 'client',
