@@ -135,11 +135,29 @@ app.use('/avatar', express.static(avatarsDir, staticoptions));
 
 // view engine을 EJS로 설정
 app.set('views', './views');
-app.set('view engine', 'pug');
+const engines = require('consolidate')
+app.engine('pug', engines.pug)
+app.engine('ejs', engines.ejs)
+app.set('view engine', 'pug')
 
 // 로그인 파일 불러오기
 fs.readdirSync('./login').forEach((file) => {
     require(`./login/${file}`)(passport);
+});
+
+// render 메서드 수정
+
+app.use((req, res, next) => {
+    const render = res.render
+    res.render = function (view, options, callback) {
+        fs.stat(path.join(__dirname, 'views', view + '.pug'), (err, stat) => {
+            if (err) {
+                return render.bind(this)(view + '.ejs', options, callback)
+            }
+            render.bind(this)(view, options, callback)
+        })
+    }
+    next()
 });
 
 // IE 경고
