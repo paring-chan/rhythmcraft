@@ -61,18 +61,20 @@ passport.deserializeUser((obj, done) => {
   User.findOne({ snsID: obj.snsID, provider: obj.provider })
     .then(async (u) => {
       const user = JSON.parse(JSON.stringify(u))
-      for (let key of Object.keys(user.equip)) {
-        const item = await Item.findOne({ product_id: user.equip[key] })
-        const check_have = await Inventory.findOne({
-          owner: user.fullID,
-          product_id: user.equip[key],
-        })
-        if (!item || !check_have) {
-          const equip = user.equip
-          equip[key] = null
-          await User.updateOne({ fullID: user.fullID }, { equip })
-          user.equip = equip
-        } else user[`equip_${key}`] = item['image_name']
+      if (user.equip) {
+        for (let key of Object.keys(user.equip)) {
+          const item = await Item.findOne({ product_id: user.equip[key] })
+          const check_have = await Inventory.findOne({
+            owner: user.fullID,
+            product_id: user.equip[key],
+          })
+          if (!item || !check_have) {
+            const equip = user.equip
+            equip[key] = null
+            await User.updateOne({ fullID: user.fullID }, { equip })
+            user.equip = equip
+          } else user[`equip_${key}`] = item['image_name']
+        }
       }
       done(null, user)
     })
