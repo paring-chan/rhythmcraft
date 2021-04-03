@@ -5,6 +5,7 @@ html
             block title
             | #{servername}
         link(rel='stylesheet' href='/css/bootstrap/bootstrap.min.css')
+        block head
     body
         include layout/header
         if !disableFlash
