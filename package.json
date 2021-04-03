@@ -57,8 +57,5 @@
     "@types/express-session": "^1.17.3",
     "@types/passport": "^1.0.6",
     "prettier": "^2.2.1"
-  },
-  "workspaces": [
-    "client"
-  ]
+  }
 }
