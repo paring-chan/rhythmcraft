@@ -312,7 +312,37 @@ setInterval(async () => {
 }, 60000)
 
 const builder = require('electron-builder')
+const { Platform } = require('app-builder-lib')
 
-server.listen(setting.PORT, () => {
-  console.log('서버가 구동중입니다!')
-})
+;(async () => {
+  try {
+    const res = await builder.build({
+      projectDir: 'client',
+      config: {
+        win: {
+          target: ['nsis', 'zip'],
+          icon: 'icon.ico',
+        },
+        mac: {
+          target: 'mas',
+        },
+        linux: {
+          target: ['deb', 'appImage', 'snap'],
+          maintainer: 'parnagee9706@gmail.com',
+          category: 'Game',
+        },
+        icon: 'icon.png',
+        buildVersion: '1.0.0',
+      },
+      win: ['nsis', 'zip'],
+      linux: ['deb', 'appImage', 'snap'],
+      mac: ['default'],
+    })
+    console.log(res)
+  } catch (e) {
+    console.log('Failed to build client.', e.message)
+  }
+  server.listen(setting.PORT, () => {
+    console.log('서버가 구동중입니다!')
+  })
+})()

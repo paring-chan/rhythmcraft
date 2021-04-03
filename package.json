@@ -5,7 +5,8 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "test": "node main.js"
+    "install": "cd client;yarn",
+    "updateClient": "cd client;git pull origin master"
   },
   "types": "index.d.ts",
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/wjdgustn/rhythmcraft#readme",
   "dependencies": {
+    "app-builder-lib": "^22.10.5",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cli-progress": "^3.9.0",
@@ -27,6 +29,7 @@
     "consolidate": "^0.16.0",
     "cookie-parser": "^1.4.5",
     "ejs": "^3.1.5",
+    "electron-builder": "^22.10.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "file-type": "^15.0.1",
