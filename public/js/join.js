@@ -1,3 +1,3 @@
-window.onload = function() {
-    document.getElementById('InputEmail').focus();
+window.onload = function () {
+  document.getElementById('InputEmail').focus()
 }

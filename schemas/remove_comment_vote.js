@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 const newSchema = new Schema({
-    user: {
-        type: String,
-        required: true
-    },
-    comment_id: {
-        type: String,
-        required: true
-    }
-});
+  user: {
+    type: String,
+    required: true,
+  },
+  comment_id: {
+    type: String,
+    required: true,
+  },
+})
 
-module.exports = mongoose.model('RemoveCommentVote', newSchema);
+module.exports = mongoose.model('RemoveCommentVote', newSchema)
