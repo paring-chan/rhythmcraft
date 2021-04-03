@@ -1,15 +1,19 @@
 const mongoose = require('mongoose')
 const fs = require('fs')
+const cliProgress = require('cli-progress')
 
 const setting = require('../setting.json')
 
 module.exports = () => {
   const connect = () => {
+    mongoose.set('useCreateIndex', true)
     mongoose.connect(
       `mongodb://${setting.MONGODB_HOST}:${setting.MONGODB_PORT || 27017}`,
       {
         dbName: setting.DBNAME,
         user: setting.MONGODB_USER,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
       },
       (error) => {
         if (error) {
@@ -31,12 +35,16 @@ module.exports = () => {
     connect()
   })
 
-  console.log('스키마를 불러오는 중...')
-  fs.readdirSync('./schemas').forEach((file) => {
-    if (file != 'index.js') {
+  const schemaList = fs.readdirSync('./schemas')
+  const schemasBar = new cliProgress.SingleBar({
+    format: '스키마 로드중 | {bar} | {value}/{total}',
+  })
+  schemasBar.start(schemaList.length - 1, 0)
+  schemaList.forEach((file) => {
+    if (file !== 'index.js') {
       require(`./${file}`)
-      console.log(`${file.trim()} 스키마를 연결하였습니다.`)
+      schemasBar.increment()
     }
   })
-  console.log('스키마를 모두 불러왔습니다.')
+  schemasBar.stop()
 }

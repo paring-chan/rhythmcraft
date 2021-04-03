@@ -20,6 +20,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "cli-progress": "^3.9.0",
     "connect-flash": "^0.1.1",
     "connect-redis": "^5.0.0",
     "consolidate": "^0.16.0",
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/cli-progress": "^3.9.1",
     "@types/connect-flash": "^0.0.36",
     "@types/express-session": "^1.17.3",
     "@types/passport": "^1.0.6",

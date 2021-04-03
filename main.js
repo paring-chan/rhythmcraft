@@ -10,6 +10,7 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 const redis = require('redis')
+const cliProgress = require('cli-progress')
 /**
  * @type {any}
  */
@@ -71,7 +72,7 @@ passport.deserializeUser((obj, done) => {
           equip[key] = null
           await User.updateOne({ fullID: user.fullID }, { equip })
           user.equip = equip
-        } else user[`equip_${key}`] = item.image_name
+        } else user[`equip_${key}`] = item['image_name']
       }
       done(null, user)
     })
@@ -120,11 +121,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // 정적 파일 제공
-const staticoptions = {
+const staticOptions = {
   index: ['index.htm', 'index.html'],
 }
-app.use(express.static(__dirname + '/public/', staticoptions))
-app.use('/avatar', express.static(avatarsDir, staticoptions))
+app.use(express.static(__dirname + '/public/', staticOptions))
+app.use('/avatar', express.static(avatarsDir, staticOptions))
 
 // view engine을 EJS로 설정
 app.set('views', './views')
@@ -241,13 +242,16 @@ app.use((req, res, next) => {
 })
 
 // 라우터 불러오기
-console.log('라우터를 불러오는 중...')
-fs.readdirSync('./routes').forEach((file) => {
-  app.use(require(`./routes/${file}`))
-  console.log(`${file} 라우터를 불러왔습니다.`)
+const routerPaths = fs.readdirSync('./routes')
+const routersBar = new cliProgress.SingleBar({
+  format: '라우터 로드중 | {bar} | {value}/{total}',
 })
-console.log('라우터를 모두 불러왔습니다.\n')
-
+routersBar.start(routerPaths.length, 0)
+routerPaths.forEach((file) => {
+  app.use(require(`./routes/${file}`))
+  routersBar.increment()
+})
+routersBar.stop()
 // 서버 구동
 let server = http.createServer(app).listen(setting.PORT, () => {
   console.log('서버가 구동중입니다!')
