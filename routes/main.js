@@ -14,13 +14,13 @@ app.get('/', async (req, res, next) => {
     ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
   )
   const BASEURL = setting.SITE_BASEURL + '/client/'
-  const win = encodeURI(BASEURL + items.find((r) => r.endsWith('.exe')))
-  const linux = encodeURI(BASEURL + items.find((r) => r.endsWith('.AppImage')))
+  const win = items.find((r) => r.endsWith('.exe'))
+  const linux = items.find((r) => r.endsWith('.AppImage'))
+  const client = {}
+  if (win) client.win = encodeURI(BASEURL + win)
+  if (linux) client.linux = encodeURI(BASEURL + linux)
   return res.render('main', {
-    client: {
-      win,
-      linux,
-    },
+    client,
   })
 })
 

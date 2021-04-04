@@ -4,8 +4,13 @@ block content
         .d-flex.gap-2.flex-column.flex-lg-row
             div.flex-grow-1
                 | LIST
-            div
-                .card(style='min-width: 300px')
-                    .card-body
-                        if !isClient
-                            a.btn.btn-outline-primary(href='/client' style='width: 100%') 클라이언트 다운로드
+            div(style='min-width: 300px')
+                if !isClient && client.win || client.linux
+                    .card
+                        .card-body
+                            h5.card-title 클라이언트 다운로드
+                            .d-flex.flex-column.gap-2
+                                if client.win
+                                    a.btn.btn-outline-primary(href=client.win) 클라이언트(WINDOWS)
+                                if client.linux
+                                    a.btn.btn-outline-primary(href=client.linux) 클라이언트(LINUX)

@@ -126,7 +126,7 @@ app.use(passport.session())
 const staticOptions = {
   index: ['index.htm', 'index.html'],
 }
-const clientDir = path.join(__dirname, 'client/dist')
+global.clientDir = path.join(__dirname, 'client/dist')
 app.use(express.static(__dirname + '/public/', staticOptions))
 // app.get('/client', async (req, res) => {
 //   const promiseFS = require('fs/promises')
