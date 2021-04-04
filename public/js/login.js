@@ -10,9 +10,9 @@ window.onload = function () {
     console.log(data)
     switch (data.action) {
       case 'qrlogin':
-        document.getElementById('InputEmail').value = data.email
-        document.getElementById('InputPassword').value = data.password
-        document.getElementById('LoginForm').submit()
+        document.getElementById('inputEmail').value = data.email
+        document.getElementById('inputPassword').value = data.password
+        document.getElementById('loginForm').submit()
         break
       case 'saveid':
         socketid = data.id

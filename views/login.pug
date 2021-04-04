@@ -12,7 +12,7 @@ block content
             .d-flex.flex-column.flex-lg-row.gap-2
                 .card.flex-grow-1
                     .card-body
-                        form(action='/login' method='post')
+                        form(action='/login' method='post')#loginForm
                             input(type='hidden' name='redirect' value=(query.redirect || '/'))
                             .mb-3
                                 label(for='inputEmail').form-label 이메일
