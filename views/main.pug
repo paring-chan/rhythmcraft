@@ -10,6 +10,7 @@ block content
             div.flex-grow-1
                 #room
             div(style='min-width: 300px')
+                a(href='/newroom')#newroom.btn.btn-primary.w-100.mb-2 새 방 만들기
                 if !isClient && (client.win || client.linux)
                     .card
                         .card-body
