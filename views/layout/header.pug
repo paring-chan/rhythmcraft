@@ -50,6 +50,6 @@ if !noNav
                             a.nav-link(href=`/login?redirect=${encodeURIComponent(referrer_path)}`) 로그인
                     if isClient
                         li.nav-item
-                            a.nav-link(href='#' onclick='window.close()') 종료
+                            a.nav-link(href='#' onclick='require(\'electron\').remote.app.exit()') 종료
 
     div(style='height: 60px')

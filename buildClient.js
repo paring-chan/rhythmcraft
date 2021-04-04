@@ -18,6 +18,7 @@ fs.writeFileSync(
         target: ['appImage'],
         maintainer: 'parnagee9706@gmail.com',
         category: 'Game',
+        icon: 'icon.png',
       },
       icon: 'icon.png',
       buildVersion: '1.0.0',
