@@ -22,3 +22,7 @@ block content
                     .card
                         .card-body
                             h5.card-title 방 접속하기
+                            form(method='get' action='/game')
+                                .mb-2
+                                    input(required type='text' name='room' placeholder='방 코드 / URL 입력').form-control
+                                button(type='submit').btn.btn-primary.w-100 접속하기
