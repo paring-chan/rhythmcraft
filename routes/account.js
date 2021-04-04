@@ -51,10 +51,8 @@ login_dir_list.forEach((file) => {
     (req, res, next) => {
       if (req.isAuthenticated()) {
         res.redirect('/')
-        return
       } else {
         req.session.LoginRedirect = req.query.redirect || '/'
-        req.flash('success', '로그인 되었습니다.')
         next()
       }
     },
@@ -70,6 +68,7 @@ login_dir_list.forEach((file) => {
       failureRedirect: '/loginfail',
     }),
     (req, res, next) => {
+      req.flash('success', '로그인 되었습니다.')
       res.redirect(req.session.LoginRedirect || '/')
       return
     },
@@ -115,6 +114,7 @@ app.post('/login', utils.isNotLogin, (req, res, next) => {
       if (loginError) {
         console.error(loginError)
       }
+      req.flash('success', '로그인 되었습니다.')
       if (!res.headersSent) return res.redirect(req.body.redirect || '/')
     })
   })(req, res, next)

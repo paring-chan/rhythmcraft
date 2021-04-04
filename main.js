@@ -221,6 +221,7 @@ app.use((req, res, next) => {
   res.locals.FlashError = req.flash('Error')
   res.locals.FlashInfo = req.flash('Info')
   res.locals.FlashWarn = req.flash('Warn')
+  res.locals.FlashSuccess = req.flash('success')
   res.locals.session = req.session
   res.locals.isClient = req.session['isClient'] || false
   res.locals.socket = setting.SITE_BASEURL
