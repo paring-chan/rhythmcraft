@@ -24,4 +24,27 @@ block content
                         .mb-2
                             label(for='inputMaxPlayer').form-label 최대 플레이어(최소 2명, 최대 8명)
                             input(type='number' value='8' min='2' max='8' name='max_player' required).form-control#inputMaxPlayer
+                        .mb-2
+                            label(for='inputMusic').form-label 음악 선택
+                            select.form-select#inputMusic(name='music' required)
+                                option(value='' selected) 음악을 선택해주세요
+                                for file in files
+                                    option(value=file.name)= file.originalName
+                        .mb-2
+                            label(for='inputNote').form-label 채보 선택
+                            select.form-select#inputNote(name='note' required)
+                                option(value='rhythmcraft_mode' selected) 창작 모드!
+                                for note in notes
+                                    option(value=note.name)= `${note.workshop_title} (${note.original_name})`
+                        .mb-2
+                            label(for='inputStartPos') StartPos(ms)
+                            input(type='number' min='0' value='0' name='startpos' required).form-control#inputStartPos
+                        .mb-2
+                            label(for='inputPitch') 피치
+                            input(type='number' min='50' max='400' value='100' name='pitch' required).form-control#inputPitch
+                        if user.admin
+                            .mb-2
+                                label(for='inputPacketMultiplier') 패킷 전송량 배수
+                                input(type='number' required value='1').form-control#inputPacketMultiplier
+                                #packetMultiplierHelp.form-text 1로 설정시 일반, 2로 설정시 2배로 전송, 0.5로 설정시 0.5배로 전송
                         button.btn.btn-primary(type='submit').w-100 생성하기
