@@ -54,6 +54,7 @@ login_dir_list.forEach((file) => {
         return
       } else {
         req.session.LoginRedirect = req.query.redirect || '/'
+        req.flash('success', '로그인 되었습니다.')
         next()
       }
     },
