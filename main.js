@@ -128,19 +128,19 @@ const staticOptions = {
 }
 const clientDir = path.join(__dirname, 'client/dist')
 app.use(express.static(__dirname + '/public/', staticOptions))
-app.get('/client', async (req, res) => {
-  const promiseFS = require('fs/promises')
-  const items = (await promiseFS.readdir(clientDir)).filter((value) =>
-    ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
-  )
-  const BASEURL = setting.SITE_BASEURL + '/client/'
-  const win = encodeURI(BASEURL + items.find((r) => r.endsWith('.exe')))
-  const linux = encodeURI(BASEURL + items.find((r) => r.endsWith('.AppImage')))
-  res.json({
-    win,
-    linux,
-  })
-})
+// app.get('/client', async (req, res) => {
+//   const promiseFS = require('fs/promises')
+//   const items = (await promiseFS.readdir(clientDir)).filter((value) =>
+//     ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
+//   )
+//   const BASEURL = setting.SITE_BASEURL + '/client/'
+//   const win = encodeURI(BASEURL + items.find((r) => r.endsWith('.exe')))
+//   const linux = encodeURI(BASEURL + items.find((r) => r.endsWith('.AppImage')))
+//   res.json({
+//     win,
+//     linux,
+//   })
+// })
 app.use('/client', express.static(clientDir))
 app.use('/avatar', express.static(avatarsDir, staticOptions))
 

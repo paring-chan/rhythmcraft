@@ -8,8 +8,20 @@ const File = require('../schemas/file')
 // app 정의
 const app = express.Router()
 
-app.get('/', (req, res, next) => {
-  return res.render('main')
+app.get('/', async (req, res, next) => {
+  const promiseFS = require('fs/promises')
+  const items = (await promiseFS.readdir(clientDir)).filter((value) =>
+    ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
+  )
+  const BASEURL = setting.SITE_BASEURL + '/client/'
+  const win = encodeURI(BASEURL + items.find((r) => r.endsWith('.exe')))
+  const linux = encodeURI(BASEURL + items.find((r) => r.endsWith('.AppImage')))
+  return res.render('main', {
+    client: {
+      win,
+      linux,
+    },
+  })
 })
 
 app.get('/debug', utils.isLogin, utils.isAdmin, (req, res, next) => {
