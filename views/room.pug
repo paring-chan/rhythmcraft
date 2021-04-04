@@ -1,0 +1,9 @@
+- const roomList = rooms.filter(x=>x.public)
+if roomList.length
+    .row.row-cols-2.row-cols-md-4.row-cols-lg-6
+else
+    .card
+        .card-body.d-flex.flex-column.flex-lg-row.align-items-center
+            h4.card-title.m-0 방이 없네요! 첫번째 방을 만들어보세요!
+            .flex-grow-1
+            a(href='/newroom').btn.btn-outline-primary 방 만들기
