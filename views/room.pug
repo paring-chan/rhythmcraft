@@ -1,6 +1,12 @@
 - const roomList = rooms.filter(x=>x.public)
-if roomList.length
-    .row.row-cols-2.row-cols-md-4.row-cols-lg-6
+if !roomList.length
+    .row.row-cols-1.row-cols-lg-2
+        .card
+            .card-body
+                h5.card-title TITLE
+                span.card-subtitle.text-muted
+                    | 플레이 중 |
+                    |  정원: 1 / 8
 else
     .card
         .card-body.d-flex.flex-column.flex-lg-row.align-items-center
