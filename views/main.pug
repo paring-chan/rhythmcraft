@@ -9,7 +9,7 @@ block content
             div.flex-grow-1
                 | LIST
             div(style='min-width: 300px')
-                if !isClient && client.win || client.linux
+                if !isClient && (client.win || client.linux)
                     .card
                         .card-body
                             h5.card-title 클라이언트 다운로드
@@ -18,3 +18,7 @@ block content
                                     a.btn.btn-outline-primary(href=client.win) 클라이언트(WINDOWS)
                                 if client.linux
                                     a.btn.btn-outline-primary(href=client.linux) 클라이언트(LINUX)
+                if isClient
+                    .card
+                        .card-body
+                            h5.card-title 방 접속하기
