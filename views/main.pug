@@ -7,4 +7,5 @@ block content
             div
                 .card(style='min-width: 300px')
                     .card-body
-                        | MENU
+                        if !isClient
+                            a.btn.btn-outline-primary(href='/client' style='width: 100%') 클라이언트 다운로드
