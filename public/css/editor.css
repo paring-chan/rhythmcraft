@@ -1,8 +1,8 @@
 #tools {
     position: absolute;
     float: right;
-    top: 0px;
-    right: 0px;
+    top:0;
+    right:0;
     width: 50%;
     height: 100%;
 }
@@ -10,7 +10,7 @@
 .tool {
     position: absolute;
     float: right;
-    right: 0px;
+    right:0;
 }
 
 #buttons {
@@ -23,7 +23,7 @@
 
 .script {
     position: absolute;
-    left: 0px;
+    left:0;
     width: 50%;
     height: 8px;
     background-color: black;
