@@ -23,7 +23,7 @@ app.get('/shop', utils.isLogin, async (req, res, next) => {
     { title: { $regex: regex } },
     { description: { $regex: regex } },
   ])
-  if (items.length == 0 && req.query.search != null) {
+  if (items.length === 0 && req.query.search != null) {
     req.flash('Error', '검색 결과가 없습니다.')
     return res.redirect('/shop')
   }

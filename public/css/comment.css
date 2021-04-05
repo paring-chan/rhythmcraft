@@ -3,27 +3,33 @@
     width: 100px;
     height: 100px;
 }
+
 .comment {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .comment-text {
     position: relative;
     bottom: 80px;
     left: 120px;
     width: 80%;
 }
+
 .creator-comment {
     background-color: #caf1ca;
 }
+
 .admin-comment {
     background-color: LightCyan;
 }
+
 .comment-like {
     width: 50px;
     height: 50px;
     margin-bottom: 10px;
 }
+
 .comment-like-click {
     position: relative;
     bottom: 10px;
@@ -31,6 +37,7 @@
     height: 50px;
     cursor: pointer;
 }
+
 .heart-button {
     position: relative;
     bottom: 82px;
@@ -38,9 +45,11 @@
     width: 50px;
     height: 50px;
 }
+
 .heart-button-click {
     cursor: pointer;
 }
+
 .heart-avatar {
     position: relative;
     bottom: 66px;
