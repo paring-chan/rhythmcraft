@@ -7,7 +7,6 @@ const File = require('../schemas/file')
 const Item = require('../schemas/item')
 
 const utils = require('../utils')
-const setting = require('../setting.json')
 
 const app = express.Router()
 
@@ -25,7 +24,7 @@ app.get('/mypage', utils.isLogin, (req, res, next) => {
 
 app.post('/editaccount', utils.isLogin, async (req, res, next) => {
   const exUser = await User.findOne({ nickname: req.body.nickname })
-  if (exUser != null && exUser.fullID != req.user.fullID) {
+  if (exUser != null && exUser.fullID !== req.user.fullID) {
     req.flash('Error', '해당 닉네임이 이미 사용 중입니다!')
     return res.redirect('/mypage')
   }
@@ -39,7 +38,7 @@ app.post('/editaccount', utils.isLogin, async (req, res, next) => {
 
   const user = await User.findOne({ fullID: req.user.fullID })
   let verified = user.verified
-  if (user.nickname != req.body.nickname) verified = false
+  if (user.nickname !== req.body.nickname) verified = false
 
   try {
     await User.updateOne(
@@ -49,7 +48,7 @@ app.post('/editaccount', utils.isLogin, async (req, res, next) => {
       },
       {
         nickname: req.body.nickname,
-        allow_email_ad: req.body.allow_email_ad == 'true',
+        allow_email_ad: req.body.allow_email_ad === 'true',
         nick_set: true,
         rhythm_key_1: req.body.InputKey1,
         rhythm_key_2: req.body.InputKey2,
@@ -60,7 +59,7 @@ app.post('/editaccount', utils.isLogin, async (req, res, next) => {
         rhythm_key_7: req.body.InputKey7,
         rhythm_key_8: req.body.InputKey8,
         verified,
-        show_accurary_center: req.body.show_accurary_center == 'true',
+        show_accurary_center: req.body.show_accurary_center === 'true',
         game_skin: req.body.game_skin,
         custom_game_skin: req.body.custom_game_skin,
       },
@@ -71,7 +70,6 @@ app.post('/editaccount', utils.isLogin, async (req, res, next) => {
     req.flash('Error', 'DB에 오류가 발생하였습니다.')
     res.redirect('/mypage')
   }
-  return
 })
 
 app.get('/upload_avatar', utils.isLogin, (req, res, next) => {
@@ -131,7 +129,7 @@ app.get('/friend', utils.isLogin, async (req, res, next) => {
 })
 
 app.post('/friend_request', utils.isLogin, async (req, res, next) => {
-  if (req.body.nickname == req.user.nickname) {
+  if (req.body.nickname === req.user.nickname) {
     req.flash('Info', '나 자신은 영원한 인생의 친구입니다.')
     return res.redirect('/friend')
   }
