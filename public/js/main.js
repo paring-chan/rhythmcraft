@@ -99,11 +99,11 @@ addEventListener('gamepadconnected', (e) => {
 
   document.getElementById(
     'newroom',
-  ).innerHTML = `새 방 만들기 <br><img src="/img/gamepad_buttons_b.png" width="50" height="50">`
+  ).innerHTML = `새 방 만들기 <br><img alt="create new room" src="/img/gamepad_buttons_b.png" width="50" height="50">`
 
   requestAnimationFrame(updateStatus)
 })
-addEventListener('gamepaddisconnected', (e) => {
+addEventListener('gamepaddisconnected', () => {
   gamepad = undefined
 })
 
@@ -113,11 +113,11 @@ function updateStatus() {
   gamepad = navigator.getGamepads()[0]
   for (let i = 0; i < gamepad.buttons.length; i++) {
     const button = gamepad.buttons[i]
-    if (button.value == 1 && !pressed[i]) {
+    if (button.value === 1 && !pressed[i]) {
       pressed[i] = true
       press(i)
     }
-    if (button.value != 1) pressed[i] = false
+    if (button.value !== 1) pressed[i] = false
   }
   requestAnimationFrame(updateStatus)
 }
