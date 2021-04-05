@@ -7,7 +7,8 @@
     height: 49px;
 }
 
-#StopGame, #StopSpectate {
+#StopGame,
+#StopSpectate {
     position: absolute;
     top: 210px;
     right: 0;
@@ -36,7 +37,10 @@
     float: left;
 }
 
-#score, #multiplier, #accurary, #combo, #max_combo {
+#score,#multiplier,
+#accurary,
+#combo,
+#max_combo {
     position: absolute;
     float: left;
     right: 6px;
@@ -149,7 +153,8 @@
     border: solid black 1px;
 }
 
-#ChatBox, #ChatBoxForGame {
+#ChatBox,
+#ChatBoxForGame {
     width: 28.25%;
     height: 400px;
     margin-bottom: 10px;
@@ -157,7 +162,8 @@
     border: gray solid 3px;
 }
 
-#InputChat, #InputChatForGame {
+#InputChat,
+#InputChatForGame {
     width: 25%;
 }
 
@@ -194,7 +200,8 @@
     margin-bottom: 8px;
 }
 
-.chat-nickname, .chat-text {
+.chat-nickname,
+.chat-text {
     margin-left: 10px;
 }
 
@@ -217,7 +224,8 @@
     right: 30%;
 }
 
-#CountDown, #center_accurary {
+#CountDown,
+#center_accurary {
     position: absolute;
     z-index: 3;
     text-align: center;
