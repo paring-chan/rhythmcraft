@@ -1,10 +1,10 @@
 .chat {
-    border: solid black 1px;
-    padding: 4px;
-    margin-bottom: 8px;
+  border: solid black 1px;
+  padding: 4px;
+  margin-bottom: 8px;
 }
 
 .chat-nickname,
 .chat-text {
-    margin-left: 10px;
+  margin-left: 10px;
 }

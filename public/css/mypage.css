@@ -1,8 +1,8 @@
-input[type="text"],
-input[type="email"] {
-    width: 500px;
+input[type='text'],
+input[type='email'] {
+  width: 500px;
 }
 
 #CustomGameSkin {
-    height: 300px;
+  height: 300px;
 }
