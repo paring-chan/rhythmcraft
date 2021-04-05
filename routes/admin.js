@@ -13,12 +13,11 @@ const setting = require('../setting.json')
 
 const app = express.Router()
 
-app.get('/admin', utils.isAdmin, (req, res, next) => {
+app.get('/admin', utils.isAdmin, (req, res) => {
   res.render('admin')
-  return
 })
 
-app.get('/admin/:page', utils.isAdmin, async (req, res, next) => {
+app.get('/admin/:page', utils.isAdmin, async (req, res) => {
   switch (req.params.page) {
     case 'user':
       if (!req.query.id && !req.query.nickname) res.render('admin-user-menu')
@@ -51,17 +50,17 @@ app.get('/admin/:page', utils.isAdmin, async (req, res, next) => {
     case 'manage-comment-vote':
       const comments = await Comment.find({})
 
-      for (let i in comments) {
-        comments[i]['delete_count'] = await RemoveCommentVote.countDocuments({
-          comment_id: comments[i]['id'],
+      for (let i of comments) {
+        i['delete_count'] = await RemoveCommentVote.countDocuments({
+          comment_id: i['id'],
         })
-        if (comments[i]['delete_count'] == 0) {
-          comments[i]['dontshow'] = true
+        if (i['delete_count'] === 0) {
+          i['dontshow'] = true
           continue
         }
 
-        comments[i]['user'] = await User.findOne({
-          fullID: comments[i]['writer'],
+        i['user'] = await User.findOne({
+          fullID: i['writer'],
         })
 
         let profile_image = await File.findOne({
@@ -85,8 +84,8 @@ app.get('/admin/:page', utils.isAdmin, async (req, res, next) => {
         })
         if (!heart_user_profile_image)
           heart_user_profile_image = '/img/no_avatar.png'
-        else
-          heart_user_profile_image = `/avatar/${heart_user_profile_image.name}`
+        else1
+        heart_user_profile_image = `/avatar/${heart_user_profile_image.name}`
 
         comments[i]['heart_avatar'] = heart_user_profile_image
 
@@ -108,10 +107,10 @@ app.get('/admin/:page', utils.isAdmin, async (req, res, next) => {
       return
     case 'chat-report':
       const chats = await Chat.find({ reported: true })
-      for (let i in chats) {
+      for (let i of chats) {
         const user = await User.findOne({ fullID: chats[i]['fullID'] })
-        chats[i]['nickname'] = user.nickname
-        chats[i]['verified'] = user.verified
+        i['nickname'] = user.nickname
+        i['verified'] = user.verified
       }
       res.render('admin-chat-report', {
         chats,

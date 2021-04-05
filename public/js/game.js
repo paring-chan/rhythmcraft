@@ -393,7 +393,7 @@ window.onload = async () => {
               pg.style.width = '100%'
             }, countdown),
           )
-        else {
+        else
           musictimeout = hitsound_collection.push(
             setTimeout(() => {
               sound.seek(data.startpos / 1000)
@@ -402,7 +402,6 @@ window.onload = async () => {
               pg.style.width = '100%'
             }, data.note_speed + countdown),
           )
-        }
 
         if (data.countdown) {
           CountDown.innerText = '3'
@@ -1065,6 +1064,7 @@ function download(filename, text) {
 }
 
 let flash_note_area_timeout = {}
+
 function flash_note_area(note, color) {
   if (flash_note_area_timeout[note] != null)
     flash_note_area_timeout[note].forEach((timeout) => {
@@ -1295,6 +1295,7 @@ addEventListener('gamepaddisconnected', (e) => {
 })
 
 const pressed = {}
+
 function updateStatus() {
   if (!gamepad) return
   gamepad = navigator.getGamepads()[0]
