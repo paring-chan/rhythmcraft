@@ -151,6 +151,8 @@ app.engine('pug', engines.pug)
 app.engine('ejs', engines.ejs)
 app.set('view engine', 'pug')
 
+if (!fs.existsSync('login.json')) fs.copyFileSync('login.example.json', 'login.json')
+
 // 로그인 파일 불러오기
 fs.readdirSync('./login').forEach((file) => {
   require(`./login/${file}`)(passport)
@@ -160,7 +162,7 @@ fs.readdirSync('./login').forEach((file) => {
 
 app.use((req, res, next) => {
   const render = res.render
-  res.render = function (view, options, callback) {
+  res.render = function(view, options, callback) {
     fs.stat(path.join(__dirname, 'views', view + '.pug'), (err) => {
       if (err) {
         return render.bind(this)(view + '.ejs', options, callback)
