@@ -11,15 +11,8 @@ block content
                 #room
             div(style='min-width: 300px')
                 a(href='/newroom')#newroom.btn.btn-primary.w-100.mb-2 새 방 만들기
-                if !isClient && (client.win || client.linux)
-                    .card
-                        .card-body
-                            h5.card-title 클라이언트 다운로드
-                            .d-flex.flex-column.gap-2
-                                if client.win
-                                    a.btn.btn-outline-primary(href=client.win) 클라이언트(WINDOWS)
-                                if client.linux
-                                    a.btn.btn-outline-primary(href=client.linux) 클라이언트(LINUX)
+                if !isClient
+                    a.btn(href=clientURL) 클라이언트 다운로드
                 if isClient
                     .card
                         .card-body

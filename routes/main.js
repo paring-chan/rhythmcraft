@@ -9,19 +9,7 @@ const File = require('../schemas/file')
 const app = express.Router()
 
 app.get('/', async (req, res, next) => {
-  const promiseFS = require('fs/promises')
-  const items = (await promiseFS.readdir(clientDir)).filter((value) =>
-    ['.exe', '.AppImage'].some((value1) => value.endsWith(value1)),
-  )
-  const BASEURL = setting.SITE_BASEURL + '/client/'
-  const win = items.find((r) => r.endsWith('.exe'))
-  const linux = items.find((r) => r.endsWith('.AppImage'))
-  const client = {}
-  if (win) client.win = encodeURI(BASEURL + win)
-  if (linux) client.linux = encodeURI(BASEURL + linux)
-  return res.render('main', {
-    client,
-  })
+  return res.render('main')
 })
 
 app.get('/debug', utils.isLogin, utils.isAdmin, (req, res, next) => {

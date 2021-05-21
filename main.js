@@ -232,6 +232,7 @@ app.use((req, res, next) => {
       ? new URL(req.get('referrer')).pathname
       : req.url
   res.locals.req = req
+  res.locals.clientURL = `https://github.com/${setting.client}/releases`
 
   req.session.isLogin = req.isAuthenticated()
   req.session.rejoined_time = Date.now() - (req.session['last_join'] || 0)
