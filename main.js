@@ -126,7 +126,6 @@ app.use(passport.session())
 const staticOptions = {
   index: ['index.htm', 'index.html'],
 }
-global.clientDir = path.join(__dirname, 'client/dist')
 app.use(express.static(__dirname + '/public/', staticOptions))
 // app.get('/client', async (req, res) => {
 //   const promiseFS = require('fs/promises')
@@ -141,7 +140,6 @@ app.use(express.static(__dirname + '/public/', staticOptions))
 //     linux,
 //   })
 // })
-app.use('/client', express.static(clientDir))
 app.use('/avatar', express.static(avatarsDir, staticOptions))
 
 // view engine을 EJS로 설정
