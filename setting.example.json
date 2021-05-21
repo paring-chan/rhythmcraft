@@ -30,5 +30,6 @@
       "user": "example@example.com",
       "pass": "SECRET"
     }
-  }
+  },
+  "client": "pikokr/rhythmcraft-client"
 }

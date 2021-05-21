@@ -22,5 +22,6 @@
   "SMTP_INFO" : {
     "host": "localhost",
     "port": 2525
-  }
+  },
+  "client": "pikokr/rhythmcraft-client"
 }
