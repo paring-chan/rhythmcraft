@@ -11,7 +11,8 @@ html
         if !disableFlash
             .container
                 include layout/info
-        block content
+        main(style='margin-top: 20px')
+            block content
         script.
             isClient = #{session.isClient || false}
             socket_address = "#{socket}"
