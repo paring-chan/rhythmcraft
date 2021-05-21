@@ -12,7 +12,7 @@ block content
             div(style='min-width: 300px')
                 a(href='/newroom')#newroom.btn.btn-primary.w-100.mb-2 새 방 만들기
                 if !isClient
-                    a.btn(href=clientURL) 클라이언트 다운로드
+                    a.btn(href=clientURL).w-100.btn-primary 클라이언트 다운로드
                 if isClient
                     .card
                         .card-body
