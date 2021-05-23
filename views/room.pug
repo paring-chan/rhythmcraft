@@ -1,25 +1,29 @@
-if !rooms.length
-    .row.row-cols-1.row-cols-lg-2
-        .card
-            .card-body
-                h5.card-title
-                    | TITLE
-                div
-                    p.m-0
-                        i.fas.fa-play.me-1
-                        | 플레이중
-                    p.m-0
-                        i.fas.fa-globe.me-1
-                        | 공개방
-                    p.m-0
-                        i.fas.fa-tachometer-alt.me-1
-                        | 노트 속도: N/A
-                    p.m-0
-                        i.fas.fa-music.me-1
-                        | 음악: Plum - PLUM MEGAMIX
-                    p.m-0
-                        i.fas.fa-map.me-1
-                        | 채보: Plum - PLUM MEGAMIX
+if rooms.length
+    .d-grid(style='grid-template-columns: 1fr 1fr;grid-gap: 4px')
+        for room in rooms
+            .card
+                .card-body
+                    h5.card-title
+                        | TITLE
+                    div
+                        p.m-0
+                            i.fas.fa-play.me-1
+                            if room.playing
+                                | 플레이중(클릭해 관전)
+                            else
+                                | 대기중(클릭해 입장하세요)
+                        p.m-0
+                            i.fas.fa-globe.me-1
+                            | 공개방
+                        p.m-0
+                            i.fas.fa-tachometer-alt.me-1
+                            | 노트 속도: #{room.note_speed}ms
+                        p.m-0
+                            i.fas.fa-music.me-1
+                            | 음악: #{room.music_name}
+                        p.m-0
+                            i.fas.fa-map.me-1
+                            | 채보: #{room.note != null ? `{room.note.musicname}(Note By ${room.note.author_name})` : '채보 없음'}
 else
     .card
         .card-body.d-flex.flex-column.flex-lg-row.align-items-center
