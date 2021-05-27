@@ -5,8 +5,6 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "install": "cd client;yarn",
-    "updateClient": "cd client;git pull origin master"
   },
   "types": "index.d.ts",
   "repository": {
