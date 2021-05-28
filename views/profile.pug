@@ -1,8 +1,13 @@
 extends layout
+block title
+    | 프로필 -
 block content
     .container.d-flex.justify-content-center
         .card.p-3
             .d-flex.align-items-center
                 img(alt='avatar' src=profile_image width="155")
-                .ms-4
+                .ms-3.w-100.h-100.d-flex.flex-column
                     h1 #{profile_user.nickname}
+                    form(action='/friend_request' method='post')
+                        input(type='hidden' value=profile_user.nickname)
+                        button(type='submit').btn.btn-primary.w-100 친구 추가하기
