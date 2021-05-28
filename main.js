@@ -69,8 +69,6 @@ const strategy = new KeycloakStrategy({
     callbackURL: login.REDIRECT_URI,
   },
   async (accessToken, refreshToken, profile, done) => {
-    console.log(profile)
-
     const user = await User.findOne({
       snsID: profile.id,
       provider: 'pikostudio',
