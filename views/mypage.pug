@@ -11,10 +11,41 @@ block content
                 div(role='alert' class='alert alert-primary alert-dismissible fade show')
                     | 첫 가입시 닉네임을 설정해야 활동할 수 있습니다.
                     button(type='button' data-bs-dismiss='alert' aria-label='Close').btn-close
+            form(action='/editaccount' method='post')
+                .mb-3
+                    label(for='InputNickname').form-label 닉네임
+                    input(type='text' name='nickname' value=user.nickname placeholder='닉네임을 입력해 주세요. 다른 사람과 중복될 수 없습니다.')#InputNickname.form-control
+                .form-check.mb-3
+                    input(type='checkbox' checked=user.allow_email_ad).form-check-input#allow_email_ad
+                    label(for='allow_email_ad').form-check-label 홍보 이메일 수신 동의
+                h4 게임 키
+                .row.mb-2
+                    for i in [1,2,3,4,5,6,7,8]
+                        .col-sm-6.col-md-3
+                            label(for=`InputKey${i}`).form-label 게임 키 #{i}
+                            input(type='text' name=`InputKey${i}` value=user['rhythm_key_' + i] id=`InputKey${i}` placeholder=`${i}번 키`).form-control
+                .form-check.mb-3
+                    input(type='checkbox' checked=user.show_accuracy_center).form-check-input#show_accurary_center
+                    label(for='show_accurary_center').form-check-label 게임 중 정확도 중앙에 표시
+                span 게임 스킨
+                select.form-select#InputGameSkin(required value=user.game_skin name='game_skin').mb-3
+                    option(value='no_skin') 없음
+                    option(value='custom_skin') 커스텀
+                    for skin in game_skins
+                        option(value=skin) #{skin}
+                .mb-3#input_custom_skin
+                    label(for='CustomGameSkin').form-label 커스텀 게임 스킨
+                    textarea#CustomGameSkin(name='custom_game_skin' placeholder='커스텀 게임 스킨 CSS를 입력하세요.').form-control
+                        | #{user.custom_game_skin}
+                button(type='submit').btn.btn-primary.w-100 저장
+    if session.isClilent
+        script.
+            require('electron').remote.getGlobal('globalVars').RichPresence = {
+                details: '프로필 수정 중',
+                startTimestamp: Date.now(),
+                largeImageKey: 'main',
+                instance: true
+            }
     script.
-        require('electron').remote.getGlobal('globalVars').RichPresence = {
-            details: '프로필 수정 중',
-            startTimestamp: Date.now(),
-            largeImageKey: 'main',
-            instance: true
-        }
+        game_skin_value = "#{user.game_skin || 'no_skin'}"
+    script(src='/js/mypage.js')
