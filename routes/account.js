@@ -72,9 +72,7 @@ app.get('/logout', (req, res, next) => {
 
 // 로그인 실패 페이지
 app.get('/loginfail', (req, res, next) => {
-  res.send(
-    '<h1>로그인 실패!</h1><h2>로그인에 실패하였습니다. <a href="/login">이곳</a>을 클릭해 다시 시도할 수 있습니다.</h2>',
-  )
+  res.redirect('/login')
   return
 })
 

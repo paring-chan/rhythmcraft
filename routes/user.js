@@ -48,7 +48,7 @@ app.post('/editaccount', utils.isLogin, async (req, res, next) => {
       },
       {
         nickname: req.body.nickname,
-        allow_email_ad: req.body.allow_email_ad === 'true',
+        allow_email_ad: req.body.allow_email_ad === 'on',
         nick_set: true,
         rhythm_key_1: req.body.InputKey1,
         rhythm_key_2: req.body.InputKey2,
@@ -59,7 +59,7 @@ app.post('/editaccount', utils.isLogin, async (req, res, next) => {
         rhythm_key_7: req.body.InputKey7,
         rhythm_key_8: req.body.InputKey8,
         verified,
-        show_accurary_center: req.body.show_accurary_center === 'true',
+        show_accurary_center: req.body.show_accurary_center === 'on',
         game_skin: req.body.game_skin,
         custom_game_skin: req.body.custom_game_skin,
       },
