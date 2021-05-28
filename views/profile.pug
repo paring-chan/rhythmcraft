@@ -1,0 +1,8 @@
+extends layout
+block content
+    .container.d-flex.justify-content-center
+        .card.p-3
+            .d-flex.align-items-center
+                img(alt='avatar' src=profile_image width="155")
+                .ms-4
+                    h1 #{profile_user.nickname}
