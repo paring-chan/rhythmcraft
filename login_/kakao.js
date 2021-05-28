@@ -1,17 +1,16 @@
 const User = require('../schemas/user')
-const DiscordStrategy = require('passport-discord').Strategy
+const KakaoStrategy = require('passport-kakao').Strategy
 const uniqueString = require('unique-string')
 
-const login = require('../login.json')
+const login = require('../login_.json')
 
 module.exports = (passport) => {
   passport.use(
-    new DiscordStrategy(
+    new KakaoStrategy(
       {
-        clientID: login.DISCORD_CLIENT_ID,
-        clientSecret: login.DISCORD_CLIENT_SECRET,
-        scope: login.DISCORD_SCOPE,
-        callbackURL: login.DISCORD_CALLBACK_URL,
+        clientID: login.KAKAO_CLIENT_ID,
+        clientSecret: login.KAKAO_CLIENT_SECRET,
+        callbackURL: login.KAKAO_CALLBACK_URL,
       },
       async (accessToken, refreshToken, profile, done) => {
         const user = await User.findOne({

@@ -2,6 +2,12 @@
 process.on('unhandledRejection', console.error)
 process.on('uncaughtException', console.error)
 
+const fs = require('fs')
+const path = require('path')
+
+if (!fs.existsSync('login.json')) fs.copyFileSync('login.example.json', 'login.json')
+const login = require('./login.json')
+
 // 기본 모듈
 const express = require('express')
 const http = require('http')
@@ -11,12 +17,12 @@ const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 const redis = require('redis')
 const cliProgress = require('cli-progress')
+const KeycloakStrategy = require('passport-keycloak-oauth2-oidc').Strategy
 /**
  * @type {any}
  */
 const RedisStore = require('connect-redis')(session)
-const fs = require('fs')
-const path = require('path')
+
 // const uniqueString = require('unique-string')
 
 global.dataDir = path.join(__dirname, 'data')
@@ -52,6 +58,47 @@ const app = express()
 // 몽고디비 스키마 연결
 const connect = require('./schemas')
 connect()
+
+const strategy = new KeycloakStrategy({
+    clientID: login.CLIENT_ID,
+    realm: login.REALM,
+    publicClient: 'false',
+    clientSecret: login.CLIENT_SECRET,
+    sslRequired: 'external',
+    authServerURL: login.SERVER,
+    callbackURL: login.REDIRECT_URI,
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+
+    const user = await User.findOne({
+      snsID: profile.id,
+      provider: 'pikostudio',
+    })
+    if (user != null) {
+      return done(null, user)
+    } else {
+      const newUser = new User({
+        nickname: uniqueString(),
+        snsID: profile.id,
+        fullID: `pikostudio-${profile.id}`,
+        provider: 'pikostudio',
+        email: profile.email || null,
+      })
+      await newUser.save()
+      const user = await User.findOne({
+        snsID: profile.id,
+        provider: profile.provider,
+      })
+      return done(null, user)
+    }
+  },
+)
+
+passport.use(
+  'pikostudio',
+  strategy,
+)
 
 // 로그인 관련 코드
 passport.serializeUser((user, done) => {
@@ -145,16 +192,12 @@ app.use('/avatar', express.static(avatarsDir, staticOptions))
 // view engine을 EJS로 설정
 app.set('views', './views')
 const engines = require('consolidate')
+const uniqueString = require('unique-string')
+const axios = require('axios')
 app.engine('pug', engines.pug)
 app.engine('ejs', engines.ejs)
 app.set('view engine', 'pug')
 
-if (!fs.existsSync('login.json')) fs.copyFileSync('login.example.json', 'login.json')
-
-// 로그인 파일 불러오기
-fs.readdirSync('./login').forEach((file) => {
-  require(`./login/${file}`)(passport)
-})
 
 // render 메서드 수정
 
@@ -196,7 +239,7 @@ app.use((req, res, next) => {
       }`,
     )
     req.logout()
-    return res.redirect('/login')
+    return res.redirect('/login_')
   }
   next()
 })
@@ -253,12 +296,12 @@ app.use((req, res, next) => {
   if (
     req.session['isClient'] &&
     !req.isAuthenticated() &&
-    !req.url.startsWith('/login') &&
+    !req.url.startsWith('/login_') &&
     !req.url.startsWith('/getqrcode') &&
     !req.url.startsWith('/join') &&
     !req.url.startsWith('/find_my_password')
   )
-    return res.redirect('/login')
+    return res.redirect('/login_')
   next()
 })
 

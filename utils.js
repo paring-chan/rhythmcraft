@@ -36,7 +36,7 @@ module.exports.isNotLogin = (req, res, next) => {
 
 module.exports.isAdmin = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    res.redirect('/login')
+    res.redirect('/login_')
     return
   }
   if (!req.user.admin) {

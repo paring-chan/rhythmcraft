@@ -13,7 +13,6 @@ const User = require('../schemas/user')
 // 셋팅 파일, 로그인 설정 파일, 유틸
 const utils = require('../utils')
 const setting = require('../setting.json')
-const login = require('../login.json')
 
 // app 정의
 const app = express.Router()
@@ -35,54 +34,34 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-// 로그인 파일 불러오기
-fs.readdirSync('./login').forEach((file) => {
-  require(`../login/${file}`)(passport)
-})
-
 // 로그인 페이지
-const login_dir_list = fs.readdirSync('./login')
-login_dir_list.splice(login_dir_list.indexOf('local.js'), 1)
-login_dir_list.forEach((file) => {
-  const provider = file.replace('.js', '')
+app.get(
+  `/login`,
+  (req, res, next) => {
+    if (req.isAuthenticated()) {
+      res.redirect('/')
+    } else {
+      req.session.LoginRedirect = req.query.redirect || '/'
+      next()
+    }
+  },
+  passport.authenticate('pikostudio'),
+  (req, res, next) => {
+    return
+  },
+)
 
-  app.get(
-    `/login/${provider}`,
-    (req, res, next) => {
-      if (req.isAuthenticated()) {
-        res.redirect('/')
-      } else {
-        req.session.LoginRedirect = req.query.redirect || '/'
-        next()
-      }
-    },
-    passport.authenticate(provider),
-    (req, res, next) => {
-      return
-    },
-  )
-
-  app.get(
-    login[`${provider.toUpperCase()}_CALLBACK_URL`],
-    passport.authenticate(provider, {
-      failureRedirect: '/loginfail',
-    }),
-    (req, res, next) => {
-      req.flash('success', '로그인 되었습니다.')
-      res.redirect(req.session.LoginRedirect || '/')
-      return
-    },
-  )
-})
-
-// 메인 로그인 페이지
-app.get('/login', utils.isNotLogin, (req, res, next) => {
-  res.render('login', {
-    login: login,
-    login_list: login_dir_list,
-  })
-  return
-})
+app.get(
+  `/login/callback`,
+  passport.authenticate('pikostudio', {
+    failureRedirect: '/loginfail',
+  }),
+  (req, res, next) => {
+    req.flash('success', '로그인 되었습니다.')
+    res.redirect(req.session.LoginRedirect || '/')
+    return
+  },
+)
 
 // 로그 아웃
 app.get('/logout', (req, res, next) => {
@@ -100,7 +79,7 @@ app.get('/loginfail', (req, res, next) => {
 })
 
 // 로컬 로그인 코드
-app.post('/login', utils.isNotLogin, (req, res, next) => {
+app.post('/login_', utils.isNotLogin, (req, res, next) => {
   passport.authenticate('local', (authError, user, info) => {
     if (authError) {
       console.error(authError)
@@ -108,7 +87,7 @@ app.post('/login', utils.isNotLogin, (req, res, next) => {
     }
     if (!user) {
       req.flash('Error', info.message)
-      if (!res.headersSent) return res.redirect('/login')
+      if (!res.headersSent) return res.redirect('/login_')
     }
     return req.login(user, (loginError) => {
       if (loginError) {
@@ -189,7 +168,7 @@ app.post('/join', utils.isNotLogin, async (req, res, next) => {
   }
   transport.sendMail(message)
 
-  res.redirect('/login')
+  res.redirect('/login_')
 })
 
 app.get('/verifymail', async (req, res, next) => {
@@ -318,7 +297,7 @@ app.get('/change_password', (req, res, next) => {
   let token_result
   if (req.query.from_mypage == 'true') {
     if (!req.isAuthenticated()) {
-      return res.redirect('/login')
+      return res.redirect('/login_')
     }
   } else {
     token_result = utils.verifyToken(req.query.token)
@@ -334,7 +313,7 @@ app.post('/change_password', async (req, res, next) => {
   let token_result
   if (req.body.from_mypage == 'true') {
     if (!req.isAuthenticated()) {
-      return res.redirect('/login')
+      return res.redirect('/login_')
     }
   } else {
     token_result = utils.verifyToken(req.body.token)
