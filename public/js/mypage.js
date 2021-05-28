@@ -8,8 +8,6 @@ window.onload = function () {
     }
   })
 
-  document.getElementById('InputGameSkin').value = game_skin_value
-
   document.getElementById('InputGameSkin').onchange = InputCustomGameSkinStatus
   InputCustomGameSkinStatus()
 }

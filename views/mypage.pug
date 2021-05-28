@@ -23,7 +23,7 @@ block content
                     for i in [1,2,3,4,5,6,7,8]
                         .col-sm-6.col-md-3
                             label(for=`InputKey${i}`).form-label 게임 키 #{i}
-                            input(type='text' name=`InputKey${i}` value=user['rhythm_key_' + i] id=`InputKey${i}` placeholder=`${i}번 키`).form-control
+                            input(type='text' name=`InputKey${i}` value=user['rhythm_key_' + i] id=`InputKey${i}` placeholder=`${i}번 키`).form-control.setkey
                 .form-check.mb-3
                     input(type='checkbox' checked=user.show_accuracy_center).form-check-input#show_accurary_center
                     label(for='show_accurary_center').form-check-label 게임 중 정확도 중앙에 표시
