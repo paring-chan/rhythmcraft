@@ -1,0 +1,20 @@
+extends layout
+
+block title
+    | 마이페이지 -
+
+block content
+    .container
+        h2 마이페이지
+        .card.p-3
+            if !user.nick_set
+                div(role='alert' class='alert alert-primary alert-dismissible fade show')
+                    | 첫 가입시 닉네임을 설정해야 활동할 수 있습니다.
+                    button(type='button' data-bs-dismiss='alert' aria-label='Close').btn-close
+    script.
+        require('electron').remote.getGlobal('globalVars').RichPresence = {
+            details: '프로필 수정 중',
+            startTimestamp: Date.now(),
+            largeImageKey: 'main',
+            instance: true
+        }

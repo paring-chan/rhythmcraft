@@ -11,3 +11,10 @@ block content
                     form(action='/friend_request' method='post')
                         input(type='hidden' value=profile_user.nickname)
                         button(type='submit').btn.btn-primary.w-100 친구 추가하기
+    script.
+        require('electron').remote.getGlobal('globalVars').RichPresence = {
+            details: `#{profile_user.nickname}의 프로필을 보는 중`,
+            startTimestamp: Date.now(),
+            largeImageKey: 'main',
+            instance: true
+        }
